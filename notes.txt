@@ -1,0 +1,2 @@
+List not typed, no use of generics list
+LSBPlugin constructors -> new LSBErrors()
