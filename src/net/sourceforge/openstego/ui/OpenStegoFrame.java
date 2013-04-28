@@ -519,7 +519,7 @@ public class OpenStegoFrame extends JFrame {
         gridBagConstraints.gridy = 0;
         extractPanel.add(extractAlgoPanel, gridBagConstraints);
 
-        extractCryptoAlgoPanel.add(new JLabel(labelUtil.getString("gui.label.option.cryptoAlgorithm")));
+        extractCryptoAlgoPanel.add(new JLabel(labelUtil.getString("gui.label.option.cryptoAlgorithm.ignore")));
         extractCryptoAlgoPanel.add(extractCryptoAlgorithmComboBox);
 
         gridBagConstraints.insets = new Insets(5, 0, 5, 5);
@@ -527,24 +527,24 @@ public class OpenStegoFrame extends JFrame {
         extractPanel.add(extractCryptoAlgoPanel, gridBagConstraints);
 
         gridBagConstraints.insets = new Insets(5, 5, 0, 5);
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         extractPanel.add(new JLabel(labelUtil.getString("gui.label.inputStegoFile")), gridBagConstraints);
 
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         extractPanel.add(new JLabel(labelUtil.getString("gui.label.outputDataFolder")), gridBagConstraints);
 
         gridBagConstraints.insets = new Insets(0, 5, 5, 5);
 
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         inputStegoFileTextField.setColumns(57);
         extractPanel.add(inputStegoFileTextField, gridBagConstraints);
 
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 5;
         outputFolderTextField.setColumns(57);
         extractPanel.add(outputFolderTextField, gridBagConstraints);
 
 
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.insets = new Insets(20, 5, 0, 5);
         extractPanel.add(extractPwdPanel, gridBagConstraints);
         extractPwdPanel.add(new JLabel(labelUtil.getString("gui.label.option.password")));
@@ -554,12 +554,12 @@ public class OpenStegoFrame extends JFrame {
         gridBagConstraints.gridx = 1;
         gridBagConstraints.insets = new Insets(0, 0, 5, 5);
 
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         inputStegoFileButton.setText("...");
         inputStegoFileButton.setPreferredSize(new Dimension(22, 22));
         extractPanel.add(inputStegoFileButton, gridBagConstraints);
 
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 5;
         outputFolderButton.setText("...");
         outputFolderButton.setPreferredSize(new Dimension(22, 22));
         extractPanel.add(outputFolderButton, gridBagConstraints);

@@ -6,12 +6,7 @@
 
 package net.sourceforge.openstego;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -161,6 +156,10 @@ public class OpenStego {
         InputStream is = null;
         String filename = null;
 
+        if(!new File(stegoFileName).exists()) {
+            throw new OpenStegoException(OpenStego.NAMESPACE, OpenStegoException.FILE_NOT_FOUND, stegoFileName, null);
+        }
+
         try {
             // If no message file is provided, then read the data from stdin
             if (msgFile == null) {
@@ -172,8 +171,8 @@ public class OpenStego {
 
             return embedData(CommonUtil.getStreamBytes(is), filename, coverFile == null ? null : CommonUtil
                     .getFileBytes(coverFile), coverFile == null ? null : coverFile.getName(), stegoFileName);
-        } catch (IOException ioEx) {
-            throw new OpenStegoException(ioEx);
+        } catch (FileNotFoundException e) {
+            throw new OpenStegoException(OpenStego.NAMESPACE, OpenStegoException.FILE_NOT_FOUND, e.getMessage(), null);
         }
     }
 

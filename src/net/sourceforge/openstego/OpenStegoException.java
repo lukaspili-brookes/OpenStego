@@ -87,6 +87,10 @@ public class OpenStegoException extends Exception
 
     public static final int DIRECTORY_INVALID = 14;
 
+    public static final int PERMISSION_DENIED = 15;
+
+    public static final int FILE_NOT_FOUND = 16;
+
     /**
      * Map to store error code to message key mapping
      */
@@ -120,6 +124,8 @@ public class OpenStegoException extends Exception
         addErrorCode(OpenStego.NAMESPACE, PLUGIN_NOT_FOUND, "err.plugin.notFound");
         addErrorCode(OpenStego.NAMESPACE, IMAGE_SIZE_MISMATCH, "err.image.size.mismatch");
         addErrorCode(OpenStego.NAMESPACE, DIRECTORY_INVALID, "err.directory.invalid");
+        addErrorCode(OpenStego.NAMESPACE, PERMISSION_DENIED, "err.permission.denied");
+        addErrorCode(OpenStego.NAMESPACE, FILE_NOT_FOUND, "err.file.notfound");
     }
 
     /**
@@ -163,7 +169,7 @@ public class OpenStegoException extends Exception
      */
     public OpenStegoException(String namespace, int errorCode, Object[] params, Throwable cause)
     {
-        super((namespace == OpenStego.NAMESPACE && errorCode == UNHANDLED_EXCEPTION) ? cause.toString() : LabelUtil
+        super((namespace.equals(OpenStego.NAMESPACE) && errorCode == UNHANDLED_EXCEPTION) ? cause.toString() : LabelUtil
                 .getInstance(namespace).getString((String) errMsgKeyMap.get(namespace + errorCode), params), cause);
 
         this.namespace = namespace;
