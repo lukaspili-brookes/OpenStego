@@ -197,9 +197,9 @@ public class CommonUtil
             fileDir = new File(dirName.equals("") ? "." : dirName);
             arrFile = fileDir.listFiles(new WildcardFilenameFilter(fileName));
 
-            if(arrFile == null) {
-                throw new OpenStegoException(OpenStego.NAMESPACE, )
-            }
+//            if(arrFile == null) {
+//                throw new OpenStegoException(OpenStego.NAMESPACE, )
+//            }
 
             for(int i = 0; i < arrFile.length; i++)
             {
