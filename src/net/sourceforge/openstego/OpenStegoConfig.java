@@ -49,7 +49,7 @@ public class OpenStegoConfig {
     /**
      * Flag to indicate whether encryption should be used or not
      */
-    private boolean useEncryption = false;
+    private boolean useEncryption = true;
 
     /**
      * Password for encryption in case "useEncryption" is set to true

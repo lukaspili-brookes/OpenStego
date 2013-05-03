@@ -11,6 +11,7 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import java.security.Security;
 import java.security.spec.AlgorithmParameterSpec;
 import java.security.spec.KeySpec;
+import java.util.Date;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -28,16 +29,20 @@ public class OpenStegoCrypto {
 
     private static final String DES_ALGORITHM = "PBEWithMD5AndDES";
 
+    private static final int MAX_ATTEMPS = 3;
+
+    private static final int BLOCK_INTERVAL_SECONDS = 60;
+
     /**
      * 8-byte Salt for Password-based cryptography
      */
-    private final byte[] SALT = {(byte) 0x28, (byte) 0x5F, (byte) 0x71, (byte) 0xC9, (byte) 0x1E, (byte) 0x35,
+    private static final byte[] SALT = {(byte) 0x28, (byte) 0x5F, (byte) 0x71, (byte) 0xC9, (byte) 0x1E, (byte) 0x35,
             (byte) 0x0A, (byte) 0x62};
 
     /**
      * Iteration count for Password-based cryptography
      */
-    private final int ITER_COUNT = 7;
+    private static final int ITER_COUNT = 7;
 
     /**
      * Cipher to use for encryption
@@ -48,6 +53,11 @@ public class OpenStegoCrypto {
      * Cipher to use for decryption
      */
     private Cipher decryptCipher = null;
+
+    private static int attempts = MAX_ATTEMPS;
+
+    private static long blockedTimestamp;
+
 
     /**
      * Default constructor
@@ -138,9 +148,29 @@ public class OpenStegoCrypto {
      */
     public byte[] decrypt(byte[] input) throws OpenStegoException {
         try {
-            return decryptCipher.doFinal(input);
+            long interval = (new Date().getTime() - blockedTimestamp) / 1000;
+            long remaining = BLOCK_INTERVAL_SECONDS - interval;
+            if (attempts == 0 && remaining > 0) {
+                throw new OpenStegoException(OpenStego.NAMESPACE, OpenStegoException.BLOCKED_INTERVAL, new String[]{String.valueOf(remaining)}, null);
+            }
+
+            byte[] res = decryptCipher.doFinal(input);
+            attempts = MAX_ATTEMPS;
+            return res;
+
         } catch (BadPaddingException bpEx) {
-            throw new OpenStegoException(OpenStego.NAMESPACE, OpenStegoException.NO_VALID_PLUGIN, bpEx);
+            attempts--;
+
+            // means that the user was blocked then deblocked but still invalid password, start over
+            if (attempts < 0) {
+                attempts = MAX_ATTEMPS - 1;
+            }
+
+            if (attempts == 0) {
+                blockedTimestamp = new Date().getTime();
+            }
+
+            throw new OpenStegoException(OpenStego.NAMESPACE, OpenStegoException.INVALID_PASSWORD, new String[]{String.valueOf(attempts)}, bpEx);
         } catch (Exception ex) {
             if (ex instanceof OpenStegoException) {
                 throw (OpenStegoException) ex;

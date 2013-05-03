@@ -17,6 +17,8 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.AbstractAction;
@@ -36,6 +38,7 @@ import net.sourceforge.openstego.OpenStegoPlugin;
 import net.sourceforge.openstego.util.CommonUtil;
 import net.sourceforge.openstego.util.LabelUtil;
 import net.sourceforge.openstego.util.PluginManager;
+import net.sourceforge.openstego.validator.SecurePasswordValidator;
 import org.apache.commons.io.FilenameUtils;
 
 /**
@@ -82,6 +85,7 @@ public class OpenStegoUI extends OpenStegoFrame {
         //extractAlgoComboBox.addItem(labelUtil.getString("gui.label.plugin.auto"));
 
         List algoList = PluginManager.getPluginNames();
+        Collections.sort(algoList);
         for (int i = 0; i < algoList.size(); i++) {
             embedAlgoComboBox.addItem(algoList.get(i));
             extractAlgoComboBox.addItem(algoList.get(i));
@@ -153,11 +157,15 @@ public class OpenStegoUI extends OpenStegoFrame {
         setResizable(false);
 
         msgFileTextField.setText("/Users/lukas/Desktop/testaes.txt");
-        coverFileTextField.setText("/Users/lukas/Desktop/stego/*");
-        stegoFileTextField.setText("/Users/lukas/Desktop/stego/toto");
-        passwordTextField.setText("");
-        confPasswordTextField.setText("");
+        coverFileTextField.setText("/Users/lukas/Desktop/cover.jpg");
+        stegoFileTextField.setText("/Users/lukas/Desktop/result.jpg");
+        passwordTextField.setText("toto");
+        confPasswordTextField.setText("toto");
         msgFileTextField.requestFocus();
+
+        extractPwdTextField.setText("toto");
+        outputFolderTextField.setText("/Users/lukas/Desktop/res");
+        inputStegoFileTextField.setText("/Users/lukas/Desktop/result.jpg");
     }
 
     @Override
@@ -240,20 +248,28 @@ public class OpenStegoUI extends OpenStegoFrame {
             }
         }
 
-        if (useEncryptCheckBox.isSelected()) {
-            if (!checkMandatory(passwordTextField, labelUtil.getString("gui.label.option.password"))) {
-                return;
-            }
-            if (!checkMandatory(confPasswordTextField, labelUtil.getString("gui.label.option.confPassword"))) {
-                return;
-            }
-            if (!password.equals(confPassword)) {
-                JOptionPane.showMessageDialog(this, labelUtil.getString("gui.msg.err.passwordMismatch"), labelUtil
-                        .getString("gui.msg.title.err"), JOptionPane.ERROR_MESSAGE);
-                confPasswordTextField.requestFocus();
-                return;
-            }
+//        if (useEncryptCheckBox.isSelected()) {
+        if (!checkMandatory(passwordTextField, labelUtil.getString("gui.label.option.password"))) {
+            return;
         }
+        if (!checkMandatory(confPasswordTextField, labelUtil.getString("gui.label.option.confPassword"))) {
+            return;
+        }
+
+        if (!new SecurePasswordValidator().isValid(password)) {
+            JOptionPane.showMessageDialog(this, labelUtil.getString("err.password.insecure"), labelUtil
+                    .getString("gui.msg.title.err"), JOptionPane.ERROR_MESSAGE);
+            passwordTextField.requestFocus();
+            return;
+        }
+
+        if (!password.equals(confPassword)) {
+            JOptionPane.showMessageDialog(this, labelUtil.getString("gui.msg.err.passwordMismatch"), labelUtil
+                    .getString("gui.msg.title.err"), JOptionPane.ERROR_MESSAGE);
+            confPasswordTextField.requestFocus();
+            return;
+        }
+//        }
 
         if (pluginEmbedOptionsUI != null && !pluginEmbedOptionsUI.validateEmbedAction()) {
             return;
@@ -369,8 +385,8 @@ public class OpenStegoUI extends OpenStegoFrame {
             }
         }
 
-        File outFile = new File(outputFolder + File.separator + outputFileName);
-        if (!outFile.isDirectory()) {
+        File outFolder = new File(outputFolder);
+        if (!outFolder.isDirectory()) {
             throw new OpenStegoException(OpenStego.NAMESPACE, OpenStegoException.DIRECTORY_INVALID, null);
         }
 

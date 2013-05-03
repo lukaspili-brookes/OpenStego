@@ -31,7 +31,7 @@ public class LSBConfig extends OpenStegoConfig
      * Maximum bits to use per color channel. Allowing for higher number here might degrade the quality
      * of the image in case the data size is big.
      */
-    private int maxBitsUsedPerChannel = 3;
+    private int maxBitsUsedPerChannel = 1;
 
     /**
      * Image file extension to use for writing
@@ -103,7 +103,7 @@ public class LSBConfig extends OpenStegoConfig
                     throw new OpenStegoException(LSBPlugin.NAMESPACE, LSBErrors.MAX_BITS_NOT_NUMBER, value, nfEx);
                 }
 
-                if(maxBitsUsedPerChannel < 1 || maxBitsUsedPerChannel > 8)
+                if(maxBitsUsedPerChannel < 1 || maxBitsUsedPerChannel > 3)
                 {
                     throw new OpenStegoException(LSBPlugin.NAMESPACE, LSBErrors.MAX_BITS_NOT_IN_RANGE, value, null);
                 }

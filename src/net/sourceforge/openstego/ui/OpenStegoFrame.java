@@ -426,10 +426,10 @@ public class OpenStegoFrame extends JFrame {
         label.setLabelFor(useCompCheckBox);
         optionPanel.add(label, gridBagConstraints);
 
-        gridBagConstraints.gridy = 1;
-        label = new JLabel(labelUtil.getString("gui.label.option.useEncryption"));
-        label.setLabelFor(useEncryptCheckBox);
-        optionPanel.add(label, gridBagConstraints);
+//        gridBagConstraints.gridy = 1;
+//        label = new JLabel(labelUtil.getString("gui.label.option.useEncryption"));
+//        label.setLabelFor(useEncryptCheckBox);
+//        optionPanel.add(label, gridBagConstraints);
 
         gridBagConstraints.gridy = 2;
         label = new JLabel(labelUtil.getString("gui.label.option.cryptoAlgorithm"));
@@ -442,8 +442,8 @@ public class OpenStegoFrame extends JFrame {
         gridBagConstraints.insets = new Insets(5, 10, 5, 5);
         optionPanel.add(useCompCheckBox, gridBagConstraints);
 
-        gridBagConstraints.gridy = 1;
-        optionPanel.add(useEncryptCheckBox, gridBagConstraints);
+//        gridBagConstraints.gridy = 1;
+//        optionPanel.add(useEncryptCheckBox, gridBagConstraints);
 
         gridBagConstraints.gridy = 2;
         optionPanel.add(embedCryptoAlgorithmComboBox, gridBagConstraints);
@@ -623,13 +623,13 @@ public class OpenStegoFrame extends JFrame {
         okButton.setActionCommand("OK");
         cancelButton.setActionCommand("CANCEL");
 
-        ChangeListener changeListener = new ChangeListener() {
-            public void stateChanged(ChangeEvent changeEvent) {
-                useEncryptionChanged();
-            }
-        };
-        useEncryptCheckBox.addChangeListener(changeListener);
-        useEncryptionChanged();
+//        ChangeListener changeListener = new ChangeListener() {
+//            public void stateChanged(ChangeEvent changeEvent) {
+//                useEncryptionChanged();
+//            }
+//        };
+//        useEncryptCheckBox.addChangeListener(changeListener);
+//        useEncryptionChanged();
 
         ActionListener actionListener = new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {

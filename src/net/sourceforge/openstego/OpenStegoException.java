@@ -91,6 +91,8 @@ public class OpenStegoException extends Exception
 
     public static final int FILE_NOT_FOUND = 16;
 
+    public static final int BLOCKED_INTERVAL = 17;
+
     /**
      * Map to store error code to message key mapping
      */
@@ -126,6 +128,7 @@ public class OpenStegoException extends Exception
         addErrorCode(OpenStego.NAMESPACE, DIRECTORY_INVALID, "err.directory.invalid");
         addErrorCode(OpenStego.NAMESPACE, PERMISSION_DENIED, "err.permission.denied");
         addErrorCode(OpenStego.NAMESPACE, FILE_NOT_FOUND, "err.file.notfound");
+        addErrorCode(OpenStego.NAMESPACE, BLOCKED_INTERVAL, "err.extract.blocked");
     }
 
     /**

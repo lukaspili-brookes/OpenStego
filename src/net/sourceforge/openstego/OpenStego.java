@@ -156,9 +156,9 @@ public class OpenStego {
         InputStream is = null;
         String filename = null;
 
-        if(!new File(stegoFileName).exists()) {
-            throw new OpenStegoException(OpenStego.NAMESPACE, OpenStegoException.FILE_NOT_FOUND, stegoFileName, null);
-        }
+//        if(!new File(stegoFileName).exists()) {
+//            throw new OpenStegoException(OpenStego.NAMESPACE, OpenStegoException.FILE_NOT_FOUND, stegoFileName, null);
+//        }
 
         try {
             // If no message file is provided, then read the data from stdin

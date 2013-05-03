@@ -61,7 +61,7 @@ public class LSBEmbedOptionsUI extends PluginEmbedOptionsUI
 
         GridBagConstraints gridBagConstraints = null;
         JLabel label = null;
-        Object[] maxBitsList = new Object[8];
+        Object[] maxBitsList = new Object[3];
 
         setLayout(new GridBagLayout());
 
@@ -72,9 +72,9 @@ public class LSBEmbedOptionsUI extends PluginEmbedOptionsUI
         gridBagConstraints.anchor = GridBagConstraints.WEST;
         gridBagConstraints.insets = new Insets(5, 5, 5, 5);
 
-        gridBagConstraints.gridy = 0;
-        label = new JLabel(labelUtil.getString("gui.label.option.useRandomImage"));
-        add(label, gridBagConstraints);
+//        gridBagConstraints.gridy = 0;
+//        label = new JLabel(labelUtil.getString("gui.label.option.useRandomImage"));
+//        add(label, gridBagConstraints);
 
         gridBagConstraints.gridy = 1;
         label = new JLabel(labelUtil.getString("gui.label.option.maxBitsPerChannel"));
@@ -83,11 +83,11 @@ public class LSBEmbedOptionsUI extends PluginEmbedOptionsUI
         gridBagConstraints.gridx = 1;
         gridBagConstraints.weightx = 1.0;
 
-        gridBagConstraints.gridy = 0;
-        add(randomImgCheckBox, gridBagConstraints);
+//        gridBagConstraints.gridy = 0;
+//        add(randomImgCheckBox, gridBagConstraints);
 
         gridBagConstraints.gridy = 1;
-        for(int i = 0; i < 8; i++)
+        for(int i = 0; i < 3; i++)
         {
             maxBitsList[i] = new Integer(i + 1);
         }
@@ -95,15 +95,15 @@ public class LSBEmbedOptionsUI extends PluginEmbedOptionsUI
         maxBitsComboBox.setPreferredSize(new Dimension(40, 20));
         add(maxBitsComboBox, gridBagConstraints);
 
-        ChangeListener changeListener = new ChangeListener()
-        {
-            public void stateChanged(ChangeEvent changeEvent)
-            {
-                useRandomImgChanged();
-            }
-        };
-        randomImgCheckBox.addChangeListener(changeListener);
-        useRandomImgChanged();
+//        ChangeListener changeListener = new ChangeListener()
+//        {
+//            public void stateChanged(ChangeEvent changeEvent)
+//            {
+//                useRandomImgChanged();
+//            }
+//        };
+//        randomImgCheckBox.addChangeListener(changeListener);
+//        useRandomImgChanged();
     }
 
     /**
