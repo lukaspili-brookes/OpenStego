@@ -10,7 +10,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
+import java.util.*;
+import java.util.List;
 
 /**
  * F5 implementation
@@ -85,7 +86,7 @@ public class F5Plugin extends DHImagePluginTemplate {
             throw new OpenStegoException(e);
         }
 
-        return new String(os.toByteArray(), 0, 50).trim();
+        return new String(os.toByteArray(), 0, 49).trim();
     }
 
     @Override
@@ -106,5 +107,15 @@ public class F5Plugin extends DHImagePluginTemplate {
     @Override
     public String getUsage() throws OpenStegoException {
         return "F5 plugin";
+    }
+
+    @Override
+    public List getReadableFileExtensions() throws OpenStegoException {
+        return Arrays.asList("jpg");
+    }
+
+    @Override
+    public List getWritableFileExtensions() throws OpenStegoException {
+        return Arrays.asList("jpg");
     }
 }

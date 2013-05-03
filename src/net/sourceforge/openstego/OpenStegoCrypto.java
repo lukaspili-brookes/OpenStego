@@ -70,8 +70,6 @@ public class OpenStegoCrypto {
         SecretKey secretKey = null;
         AlgorithmParameterSpec algoParamSpec = null;
 
-        System.out.println("CRYPTO ALGO = " + algorithm);
-
         try {
             if (password == null) {
                 password = "";

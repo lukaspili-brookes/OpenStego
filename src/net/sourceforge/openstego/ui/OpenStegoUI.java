@@ -156,16 +156,24 @@ public class OpenStegoUI extends OpenStegoFrame {
         pack();
         setResizable(false);
 
-        msgFileTextField.setText("/Users/lukas/Desktop/testaes.txt");
-        coverFileTextField.setText("/Users/lukas/Desktop/cover.jpg");
-        stegoFileTextField.setText("/Users/lukas/Desktop/result.jpg");
-        passwordTextField.setText("toto");
-        confPasswordTextField.setText("toto");
+        msgFileTextField.setText("");
+        coverFileTextField.setText("");
+        stegoFileTextField.setText("");
+        passwordTextField.setText("");
+        confPasswordTextField.setText("");
         msgFileTextField.requestFocus();
 
-        extractPwdTextField.setText("toto");
-        outputFolderTextField.setText("/Users/lukas/Desktop/res");
-        inputStegoFileTextField.setText("/Users/lukas/Desktop/result.jpg");
+        // LUKAS TESTS
+//        msgFileTextField.setText("/Users/lukas/Desktop/testaes.txt");
+//        coverFileTextField.setText("/Users/lukas/Desktop/cover.jpg");
+//        stegoFileTextField.setText("/Users/lukas/Desktop/result.jpg");
+//        passwordTextField.setText("ASF98237kjdfh");
+//        confPasswordTextField.setText("ASF98237kjdfh");
+//        msgFileTextField.requestFocus();
+//
+//        extractPwdTextField.setText("ASF98237kjdfh");
+//        outputFolderTextField.setText("/Users/lukas/Desktop/res");
+//        inputStegoFileTextField.setText("/Users/lukas/Desktop/result.jpg");
     }
 
     @Override
@@ -274,13 +282,31 @@ public class OpenStegoUI extends OpenStegoFrame {
         if (pluginEmbedOptionsUI != null && !pluginEmbedOptionsUI.validateEmbedAction()) {
             return;
         }
+
+        if (!plugin.getWritableFileExtensions().contains(FilenameUtils.getExtension(outputFileName))) {
+            JOptionPane.showMessageDialog(this, "Output file invalid extension", labelUtil
+                    .getString("gui.msg.title.err"), JOptionPane.ERROR_MESSAGE);
+            outputFolderTextField.requestFocus();
+            return;
+        }
+
+        if (coverFileList.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Cover file is required", labelUtil
+                    .getString("gui.msg.title.err"), JOptionPane.ERROR_MESSAGE);
+            outputFolderTextField.requestFocus();
+            return;
+        }
+
         // END: Input Validations
 
         setConfigFromGUI();
         openStego = new OpenStego(plugin, config);
-        if (coverFileList.size() <= 1) {
-            if (coverFileList.size() == 1) {
-                imgFile = (File) coverFileList.get(0);
+        if (coverFileList.size() == 1) {
+
+            imgFile = (File) coverFileList.get(0);
+
+            if (!validateCoverFile(imgFile.getName())) {
+                return;
             }
 
             if (outputFile.exists()) {
@@ -298,6 +324,10 @@ public class OpenStegoUI extends OpenStegoFrame {
         } else {
             for (int i = 0; i < coverFileList.size(); i++) {
                 imgFile = (File) coverFileList.get(i);
+
+                if (!validateCoverFile(imgFile.getName())) {
+                    return;
+                }
 
                 // Use cover file name as the output file name. Change the folder to given output folder
                 outputFileName = outputFile.getPath() + File.separator + imgFile.getName();
@@ -335,6 +365,18 @@ public class OpenStegoUI extends OpenStegoFrame {
 
         //Reset configuration
         resetGUI();
+    }
+
+    private boolean validateCoverFile(String filename) throws OpenStegoException {
+        if (!plugin.getReadableFileExtensions().contains(FilenameUtils.getExtension(filename))) {
+            JOptionPane.showMessageDialog(this, "Cover file invalid extension", labelUtil
+                    .getString("gui.msg.title.err"), JOptionPane.ERROR_MESSAGE);
+            outputFolderTextField.requestFocus();
+
+            return false;
+        }
+
+        return true;
     }
 
     /**
